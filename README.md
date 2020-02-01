@@ -14,3 +14,6 @@ backend backend_services
     server your-server-name 127.0.0.1:8001 check fall 5 rise 2 inter 7s
 ...
 ```
+
+## Screenshots
+![Screenshots](screenshots/Screenshot_2020-02-01-Statistics-Report-for-HAProxy.png)
