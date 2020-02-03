@@ -8,6 +8,7 @@ import sys
 # do socks5 handshake to shadowsocks-client.
 def handshake_socks5(host, port):
     sock = socket.create_connection((host, port));
+    sock.settimeout(3.0);
     sock.send(b'\x05'); # version
     sock.send(b'\x01'); # length of auth list
     sock.send(b'\x00'); # no auth
@@ -49,14 +50,11 @@ def handshake_socks5(host, port):
     #print('done', ip, port);
     return sock;
 
-if __name__ == "__main__":
-    host = sys.argv[3];
-    port = sys.argv[4];
-
+def test_shadowsocks(host, port):
     socks5 = handshake_socks5(host, port);
     if socks5 == None:
         print('socks5 handshake error', host, port);
-        exit(-1);
+        return False;
 
     ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT);
     ctx.options |= ssl.HAS_TLSv1_3 | ssl.HAS_TLSv1_2;
@@ -65,15 +63,30 @@ if __name__ == "__main__":
     ctx.load_default_certs();
 
     ssock = ctx.wrap_socket(socks5, server_hostname='www.google.com', do_handshake_on_connect=True);
-    ssock.sendall(b'GET / HTTP/1.0\r\nHost: www.google.com\r\nConnection: close\r\n\r\n');
 
-    buf = ssock.recv(20);
+    # if handshake success, return ok.
     ssock.close();
+    return True;
 
-    if "200 OK" in str(buf):
-        #print('available!');
-        exit(0);
-    else:
-        print('response error:', str(buf), host, port);
+    #ssock.sendall(b'GET / HTTP/1.0\r\nHost: www.google.com\r\nConnection: close\r\n\r\n');
 
+    #buf = ssock.recv(20);
+    #ssock.close();
+
+    #if "200 OK" in str(buf):
+    #    #print('available!');
+    #    return True;
+    #return False;
+
+if __name__ == "__main__":
+    host = sys.argv[3];
+    port = sys.argv[4];
+
+    try:
+        if test_shadowsocks(host, port):
+            exit(0);
+    except Exception as e:
+        pass
+
+    exit(-1);
 
