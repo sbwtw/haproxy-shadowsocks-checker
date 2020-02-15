@@ -4,6 +4,8 @@ External HAProxy checker for shadowsocks protocol.
 ## Usage
 Edit `/etc/haproxy/haproxy.cfg`, add external-check options.
 ```
+global
+    external-check
 ...
 backend backend_services
     mode        tcp
