@@ -20,5 +20,11 @@ backend backend_services
 ...
 ```
 
+## Change Test Domain
+The checker is trying to connect `www.google.com` in default, but you can modify the global variable to other domain if you want.
+```python
+TEST_DOMAIN = b'www.facebook.com'
+```
+
 ## Screenshots
 ![Screenshots](screenshots/Screenshot_2020-02-01-Statistics-Report-for-HAProxy.png)
