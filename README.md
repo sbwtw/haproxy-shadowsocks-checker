@@ -28,3 +28,6 @@ TEST_DOMAIN = b'www.facebook.com'
 
 ## Screenshots
 ![Screenshots](screenshots/Screenshot_2020-02-01-Statistics-Report-for-HAProxy.png)
+
+## Sponsor
+BTC: 3EDpMyGkp2FAQbAe7F3PhzRsxA44Kqek51
