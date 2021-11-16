@@ -9,6 +9,7 @@ Edit `/etc/haproxy/haproxy.cfg`, add external-check options.
 ```
 global
     external-check
+    insecure-fork-wanted
 ...
 backend backend_services
     mode        tcp
@@ -19,6 +20,10 @@ backend backend_services
     server your-server-name 127.0.0.1:8001 check fall 5 rise 2 inter 7s
 ...
 ```
+
+Note: 
+- From HAProxy v1.8.19, need to comment out `chroot /var/lib/haproxy` option. [#2](https://github.com/sbwtw/haproxy-shadowsocks-checker/issues/2)
+- From HAProxy v2.2, need to add `insecure-fork-wanted` option in `global` section. 
 
 ## Change Test Domain
 The checker is trying to connect `www.google.com` in default, but you can modify the global variable to other domain if you want.
